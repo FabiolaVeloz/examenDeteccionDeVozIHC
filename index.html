@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examen Detección de Voz</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      color: #212529;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    .card {
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    }
+
+    .footer {
+      background-color: #e9ecef;
+      /* Color claro */
+      color: #343a40;
+      position: relative;
+      width: 100%;
+      margin-top: 20px; /* Margen superior para separar del contenido */
+    }
+
+    #comandos-container {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #resultado img {
+      max-width: 50%;
+      height: 50%;
+    }
+
+    @keyframes encender {
+      0% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    #microfono-image {
+      position: relative;
+      width: 43.5%;
+    }
+
+    .first-div {
+      margin-top: 20px;
+      margin-bottom: 20px; /* Margen inferior para separar del footer */
+    }
+
+    .instrucciones-container {
+      overflow-y: auto;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img src="logo.png" alt="Logo" width="55" height="40" class="d-inline-block align-text-top me-2">
+          <span class="fw-bold">Examen Detección de Voz</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="app-ihc-remote/index.html">Ejecución de acciones remotas</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container first-div">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card instructions-card mb-4">
+          <div id="comandos-container" class="card-body text-center">
+            <h2 class="mb-4">Asistente Luna</h2>
+            <div class="d-flex justify-content-center align-items-center mb-4">
+              <button onclick="startRecording()" class="btn btn-primary me-2">Empezar</button>
+              <button onclick="stopRecording()" class="btn btn-danger">Detener</button>
+            </div>
+            <div style="text-align: center;">
+              <br>
+              <img src="microfono-apagado.png" alt="Microfono" class="mb-3" id="microfono-image" loading="lazy">
+            </div>
+            <br>
+            <p id="ordenIdentificada" class="mb-0">Orden Identificada:</p>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card instructions-card mb-4">
+          <div class="card-body instrucciones-container">
+            <h2 class="card-title text-center">Instrucciones</h2>
+            <p class="card-text" style="text-align: justify;">Bienvenido al centro de comandos por voz, prueba diciendo
+              las siguientes instrucciones cuando presiones el botón "Empezar" seguido de la palabra "Luna" e identificándote. Para que la aplicación deje de escuchar, presiona el botón "Detener".</p>
+            <ul class="list-group">
+              <li class="list-group-item">Enciende/apaga la luz de la recámara</li>
+              <li class="list-group-item">Enciende/apaga la luz de la sala</li>
+              <li class="list-group-item">Enciende/apaga las luces del jardín</li>
+              <li class="list-group-item">Enciende/apaga el ventilador</li>
+              <li class="list-group-item">Abre/cierra las cortinas </li>
+              <li class="list-group-item">Activa/desactiva la alarma de la casa</li>
+              <li class="list-group-item">Enciende/apaga las cámaras de seguridads</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer py-3">
+    <div class="container text-center">
+      <span>Todos los derechos reservados. Fabiola Veloz © 2024 </span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <script src="script.js" defer></script>
+
+</body>
+
+</html>
