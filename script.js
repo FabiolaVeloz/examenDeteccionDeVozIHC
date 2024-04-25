@@ -1,66 +1,111 @@
-window.innerWidth = 800;
-window.innerHeight = 600;
-
 let recognition; // Variable para almacenar el objeto de reconocimiento de voz
 let restartInterval; 
 
 function startRecording() {
+    // Decir "Por favor, identifícate con los 4 dígitos"
+    const mensajeInicio = new SpeechSynthesisUtterance("Por favor, identifícate con la clave de 4 dígitos");
+    mensajeInicio.onend = function() {
+        // Inicializar el reconocimiento de voz después de que se haya completado la síntesis del habla
+        recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+        recognition.lang = 'es-ES';
+        recognition.onresult = function (event) {
+            const transcript = event.results[0][0].transcript;
+            console.log(transcript);
+            if (transcript.toLowerCase().endsWith('luna 4213')) {
+                const mensajeInicio = new SpeechSynthesisUtterance("Bienvenida Fabiola");
+                window.speechSynthesis.speak(mensajeInicio);
+                stopRecording();
+                ejecutarComando();
+            } else {
+                const mensajeInicio = new SpeechSynthesisUtterance("Usuario no reconocido");
+                window.speechSynthesis.speak(mensajeInicio);
+                stopRecording();
+            }
+        };
+
+        recognition.onerror = function (event) {
+            console.error('Error en el reconocimiento de voz: ', event.error);
+        }
+
+        // Iniciar el reconocimiento de voz después de inicializarlo
+        restartInterval = setInterval(function () {
+            recognition.start();
+        }, 2000);
+    };
+    window.speechSynthesis.speak(mensajeInicio);
+
     document.getElementById('microfono-image').src = 'microfono-encendido.png';
     document.getElementById('microfono-image').style.animation = 'encender 1.3s ease-in-out infinite alternate';
+}
 
+function ejecutarComando() {
+    document.getElementById('microfono-image').src = 'microfono-encendido.png';
+    document.getElementById('microfono-image').style.animation = 'encender 1.3s ease-in-out infinite alternate';
     recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
     recognition.lang = 'es-ES';
     const ordenIdentificada = document.getElementById('ordenIdentificada');
     recognition.onresult = function (event) {
         // Trae la información de todo lo que estuve hablando
         const transcript = event.results[0][0].transcript;
+        console.log(transcript);
         if (transcript.toLowerCase().includes('luna')) {
-
-            ordenIdentificada.textContent = "Orden Identificada: " + transcript;
-
             switch (true) {
                 case transcript.toLowerCase().includes('enciende la luz de la recámara'):
+                    ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('enciende la luz de la recámara');
                 break;
                 case transcript.toLowerCase().includes('apaga la luz de la recámara'):
+                    ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('apaga la luz de la recámara');
                 break;
                 case transcript.toLowerCase().includes('enciende la luz de la sala'):
+                    ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('enciende la luz de la sala');
                 break;
                 case transcript.toLowerCase().includes('apaga la luz de la sala'):
+                    ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('apaga la luz de la sala');
                 break;
                 case transcript.toLowerCase().includes('enciende las luces del jardín'):
+                    ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('enciende las luces del jardín');
                 break;
                 case transcript.toLowerCase().includes('apaga las luces del jardín'):
+                    ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('apaga las luces del jardín');
                 break;
                 case transcript.toLowerCase().includes('enciende el ventilador'):
+                    ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('enciende el ventilador');
                 break;
                 case transcript.toLowerCase().includes('apaga el ventilador'):
+                    ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('apaga el ventilador');
                 break;
                 case transcript.toLowerCase().includes('abre las cortinas'):
+                    ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('abre las cortinas');
                 break;
                 case transcript.toLowerCase().includes('cierra las cortinas'):
+                    ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('cierra las cortinas');
                 break;
                 case transcript.toLowerCase().includes('enciende las cámaras de seguridad'):
-                    enviarDatosAMockAPI('cierra las cortinas');
+                    ordenIdentificada.textContent = "Orden Identificada: " + transcript;
+                    enviarDatosAMockAPI('enciende las cámaras de seguridad');
                 break;
                 case transcript.toLowerCase().includes('apaga las cámaras de seguridad'):
-                    enviarDatosAMockAPI('cierra las cortinas');
+                    ordenIdentificada.textContent = "Orden Identificada: " + transcript;
+                    enviarDatosAMockAPI('apaga las cámaras de seguridad');
                 break;
-                case transcript.toLowerCase().includes('enciende la alarma'):
-                    enviarDatosAMockAPI('cierra las cortinas');
+                case transcript.toLowerCase().includes('desactiva la alarma de la casa'):
+                    ordenIdentificada.textContent = "Orden Identificada: " + transcript;
+                    enviarDatosAMockAPI('apaga la alarma');
                 break;
-                case transcript.toLowerCase().includes('apaga la alarma'):
-                    enviarDatosAMockAPI('cierra las cortinas');
-                break;
+                case transcript.toLowerCase().includes('activa la alarma de la casa'):
+                    ordenIdentificada.textContent = "Orden Identificada: " + transcript;
+                    enviarDatosAMockAPI('enciende la alarma');
+                break;    
                 default:
                     console.log('Instrucción no reconocida');
             }
@@ -73,19 +118,19 @@ function startRecording() {
 
     recognition.start();
 
-    // Reinicia la grabación cada 5 segundos
+    // Reinicia la grabación
     restartInterval = setInterval(function () {
         recognition.start();
     }, 2000);
 }
 
+
 function stopRecording() {
     if (recognition) {
         document.getElementById('microfono-image').src = 'microfono-apagado.png';
         document.getElementById('microfono-image').style.animation = 'none';
-        ordenIdentificada.textContent = "Orden Identificada: ";
         recognition.stop();
-        clearInterval(restartInterval); // Detiene el intervalo de reinicio
+        clearInterval(restartInterval); 
     }
 }
 
@@ -131,3 +176,7 @@ function enviarDatosAMockAPI(instruccion) {
             console.error('Error:', error);
         });
 }
+
+
+
+
