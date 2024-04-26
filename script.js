@@ -135,6 +135,7 @@ function stopRecording() {
     if (recognition) {
         document.getElementById('microfono-image').src = 'microfono-apagado.png';
         document.getElementById('microfono-image').style.animation = 'none';
+        ordenIdentificada.textContent="";
         recognition.stop();
         clearInterval(restartInterval); 
     }
