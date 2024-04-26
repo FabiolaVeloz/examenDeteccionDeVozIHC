@@ -1,5 +1,9 @@
 let recognition; // Variable para almacenar el objeto de reconocimiento de voz
 let restartInterval; 
+const usuarios = [
+    { nombre: 'Fabiola', clave: 'luna 4213' },
+    { nombre: 'Mariana', clave: 'luna 9876' }
+];
 
 function startRecording() {
     // Decir "Por favor, identifícate con los 4 dígitos"
@@ -11,8 +15,10 @@ function startRecording() {
         recognition.onresult = function (event) {
             const transcript = event.results[0][0].transcript;
             console.log(transcript);
-            if (transcript.toLowerCase().endsWith('luna 4213')) {
-                const mensajeInicio = new SpeechSynthesisUtterance("Bienvenida Fabiola");
+            const usuario = usuarios.find(u => transcript.toLowerCase().endsWith(u.clave));
+            if (usuario) {
+                const mensajeInicio = new SpeechSynthesisUtterance("Bienvenida " + usuario.nombre);
+                console.log("Bienvenida" + usuario.nombre);
                 window.speechSynthesis.speak(mensajeInicio);
                 stopRecording();
                 ejecutarComando();
