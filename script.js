@@ -21,7 +21,7 @@ function startRecording() {
                 console.log("Bienvenida" + usuario.nombre);
                 window.speechSynthesis.speak(mensajeInicio);
                 stopRecording();
-                ejecutarComando();
+                ejecutarComando(usuario.nombre);
             } else {
                 const mensajeInicio = new SpeechSynthesisUtterance("Usuario no reconocido");
                 window.speechSynthesis.speak(mensajeInicio);
@@ -44,7 +44,7 @@ function startRecording() {
     document.getElementById('microfono-image').style.animation = 'encender 1.3s ease-in-out infinite alternate';
 }
 
-function ejecutarComando() {
+function ejecutarComando(usuarioNombre) {
     document.getElementById('microfono-image').src = 'microfono-encendido.png';
     document.getElementById('microfono-image').style.animation = 'encender 1.3s ease-in-out infinite alternate';
     recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
@@ -58,59 +58,59 @@ function ejecutarComando() {
             switch (true) {
                 case transcript.toLowerCase().includes('enciende la luz de la recámara'):
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
-                    enviarDatosAMockAPI('enciende la luz de la recámara');
+                    enviarDatosAMockAPI('enciende la luz de la recámara', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('apaga la luz de la recámara'):
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
-                    enviarDatosAMockAPI('apaga la luz de la recámara');
+                    enviarDatosAMockAPI('apaga la luz de la recámara', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('enciende la luz de la sala'):
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
-                    enviarDatosAMockAPI('enciende la luz de la sala');
+                    enviarDatosAMockAPI('enciende la luz de la sala', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('apaga la luz de la sala'):
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
-                    enviarDatosAMockAPI('apaga la luz de la sala');
+                    enviarDatosAMockAPI('apaga la luz de la sala', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('enciende las luces del jardín'):
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
-                    enviarDatosAMockAPI('enciende las luces del jardín');
+                    enviarDatosAMockAPI('enciende las luces del jardín', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('apaga las luces del jardín'):
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
-                    enviarDatosAMockAPI('apaga las luces del jardín');
+                    enviarDatosAMockAPI('apaga las luces del jardín', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('enciende el ventilador'):
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
-                    enviarDatosAMockAPI('enciende el ventilador');
+                    enviarDatosAMockAPI('enciende el ventilador', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('apaga el ventilador'):
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
-                    enviarDatosAMockAPI('apaga el ventilador');
+                    enviarDatosAMockAPI('apaga el ventilador', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('abre las cortinas'):
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
-                    enviarDatosAMockAPI('abre las cortinas');
+                    enviarDatosAMockAPI('abre las cortinas', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('cierra las cortinas'):
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
-                    enviarDatosAMockAPI('cierra las cortinas');
+                    enviarDatosAMockAPI('cierra las cortinas', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('enciende las cámaras de seguridad'):
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
-                    enviarDatosAMockAPI('enciende las cámaras de seguridad');
+                    enviarDatosAMockAPI('enciende las cámaras de seguridad', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('apaga las cámaras de seguridad'):
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
-                    enviarDatosAMockAPI('apaga las cámaras de seguridad');
+                    enviarDatosAMockAPI('apaga las cámaras de seguridad', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('desactiva la alarma de la casa'):
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
-                    enviarDatosAMockAPI('apaga la alarma');
+                    enviarDatosAMockAPI('apaga la alarma', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('activa la alarma de la casa'):
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
-                    enviarDatosAMockAPI('enciende la alarma');
+                    enviarDatosAMockAPI('enciende la alarma', usuarioNombre);
                 break;    
                 default:
                     console.log('Instrucción no reconocida');
@@ -145,13 +145,13 @@ function obtenerFechaHoraActual() {
 }
 
 // Función para enviar datos a MockAPI
-function enviarDatosAMockAPI(instruccion) {
+function enviarDatosAMockAPI(instruccion,nombreUsuario) {
     const fechaHoraActual = obtenerFechaHoraActual();
-    const usuario="Fabiola";
+    const usuario=usuarios.nombre;
     // Datos a enviar en la solicitud POST
     const datos = {
         orden: instruccion,
-        usuario: usuario,
+        usuario: nombreUsuario,
         fechaHora: fechaHoraActual
     };
 
