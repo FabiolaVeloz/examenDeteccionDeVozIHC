@@ -17,6 +17,7 @@ function startRecording() {
             console.log(transcript);
             const usuario = usuarios.find(u => transcript.toLowerCase().endsWith(u.clave));
             if (usuario) {
+                usuarioNombre = usuario.nombre;
                 const mensajeInicio = new SpeechSynthesisUtterance("Bienvenida " + usuario.nombre);
                 console.log("Bienvenida" + usuario.nombre);
                 window.speechSynthesis.speak(mensajeInicio);
@@ -137,6 +138,7 @@ function stopRecording() {
         document.getElementById('microfono-image').style.animation = 'none';
         const ordenIdentificada = document.getElementById('ordenIdentificada');
         ordenIdentificada.textContent="Orden identificada:";
+        enviarDatosAMockAPI('Sesión cerrada', usuarioNombre);
         recognition.stop();
         clearInterval(restartInterval); 
     }
