@@ -58,58 +58,72 @@ function ejecutarComando(usuarioNombre) {
         if (transcript.toLowerCase().includes('luna')) {
             switch (true) {
                 case transcript.toLowerCase().includes('enciende la luz de la recámara'):
+                    actualizarAPI("focoRecamara","1");
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('enciende la luz de la recámara', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('apaga la luz de la recámara'):
+                    actualizarAPI("focoRecamara","0");
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('apaga la luz de la recámara', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('enciende la luz de la sala'):
+                    actualizarAPI("focoSala","1");
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('enciende la luz de la sala', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('apaga la luz de la sala'):
+                    actualizarAPI("focoSala","0");
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('apaga la luz de la sala', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('enciende las luces del jardín'):
+                    actualizarAPI("focoJardin","1");
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('enciende las luces del jardín', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('apaga las luces del jardín'):
+                    actualizarAPI("focoJardin","0");
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('apaga las luces del jardín', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('enciende el ventilador'):
+                    actualizarAPI("ventilador","1");
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('enciende el ventilador', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('apaga el ventilador'):
+                    actualizarAPI("ventilador","0");
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('apaga el ventilador', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('abre las cortinas'):
+                    actualizarAPI("cortinas","1");
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('abre las cortinas', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('cierra las cortinas'):
+                    actualizarAPI("cortinas","0");
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('cierra las cortinas', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('enciende las cámaras de seguridad'):
+                    actualizarAPI("camaras","1");
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('enciende las cámaras de seguridad', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('apaga las cámaras de seguridad'):
+                    actualizarAPI("camaras","0");
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('apaga las cámaras de seguridad', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('desactiva la alarma de la casa'):
+                    actualizarAPI("alarma","0");
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('apaga la alarma', usuarioNombre);
                 break;
                 case transcript.toLowerCase().includes('activa la alarma de la casa'):
+                    actualizarAPI("alarma","1");
                     ordenIdentificada.textContent = "Orden Identificada: " + transcript;
                     enviarDatosAMockAPI('enciende la alarma', usuarioNombre);
                 break;    
@@ -187,6 +201,35 @@ function enviarDatosAMockAPI(instruccion,nombreUsuario) {
         });
 }
 
+function actualizarAPI(instruccion, valor) {
+    const datos = {
+        [instruccion]: valor
+    };
+
+    const opciones = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos)
+    };
+
+    const urlMockAPI = 'https://6624267404457d4aaf9bbc2d.mockapi.io/examen/1';
+
+    return fetch(urlMockAPI, opciones)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la solicitud PUT a MockAPI');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Actualización exitosa en MockAPI:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
 
 
 
